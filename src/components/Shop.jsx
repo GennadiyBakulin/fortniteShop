@@ -43,6 +43,35 @@ export const Shop = () => {
         setOrder(newOrder)
     }
 
+    const incaddQuantity = (itemId) => {
+        const newOrder = order.map((el) => {
+            if (el.mainId === itemId) {
+                const newQuantity = el.quantity + 1;
+                return {
+                    ...el,
+                    quantity: newQuantity,
+                };
+            } else {
+                return el;
+            }
+        })
+        setOrder(newOrder);
+    }
+    const decaddQuantity = (itemId) => {
+        const newOrder = order.map((el) => {
+            if (el.mainId === itemId) {
+                const newQuantity = el.quantity - 1;
+                return {
+                    ...el,
+                    quantity: newQuantity >= 0 ? newQuantity : 0,
+                };
+            } else {
+                return el;
+            }
+        })
+        setOrder(newOrder);
+    }
+
     useEffect(function getGoods() {
         fetch(API_URL, {
             headers: {
@@ -61,7 +90,8 @@ export const Shop = () => {
             }
             {
                 isBasketShow &&
-                <BasketList order={order} handleBasketShow={handleBasketShow} removeFromBasket={removeFromBasket}/>
+                <BasketList order={order} handleBasketShow={handleBasketShow} removeFromBasket={removeFromBasket}
+                            incaddQuantity={incaddQuantity} decaddQuantity={decaddQuantity}/>
             }
         </main>
     )
