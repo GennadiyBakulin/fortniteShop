@@ -4,15 +4,21 @@ import {Preloader} from "./Preloader";
 import {GoodsList} from "./GoodsList";
 import {Cart} from "./Cart";
 import {BasketList} from "./BasketList";
+import {Alert} from "./Alert";
 
 export const Shop = () => {
     const [goods, setGoods] = useState([]);
     const [loading, setLoading] = useState(true);
     const [order, setOrder] = useState([]);
     const [isBasketShow, setBasketShow] = useState(false);
+    const [alertName, setAlertName] = useState('');
 
     const handleBasketShow = () => {
         setBasketShow(!isBasketShow);
+    }
+
+    const closeAlert = () => {
+        setAlertName('');
     }
 
     const addToBasket = (item) => {
@@ -36,6 +42,7 @@ export const Shop = () => {
             });
             setOrder(newOrder);
         }
+        setAlertName(item.displayName);
     };
 
     const removeFromBasket = (itemId) => {
@@ -93,6 +100,7 @@ export const Shop = () => {
                 <BasketList order={order} handleBasketShow={handleBasketShow} removeFromBasket={removeFromBasket}
                             incaddQuantity={incaddQuantity} decaddQuantity={decaddQuantity}/>
             }
+            {alertName && <Alert name={alertName} closeAlert={closeAlert}/>}
         </main>
     )
 }
